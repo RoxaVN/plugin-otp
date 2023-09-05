@@ -34,6 +34,7 @@
     "@remix-run/node": "^1.19.1",
     "@remix-run/react": "^1.19.1",
     "@roxavn/core": "^0.2.0",
+    "@roxavn/module-utils": "^0.2.0",
     "@tabler/icons-react": "^2.12.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
