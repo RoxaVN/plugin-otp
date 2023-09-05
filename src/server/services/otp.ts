@@ -66,3 +66,45 @@ export class CreateOtpApiService extends BaseService {
     return { id: item.id, cooldown: result.cooldown };
   }
 }
+
+@serverModule.injectable()
+export class VerifyOtpApiService extends BaseService {
+  constructor(
+    @inject(DatabaseService) protected databaseService: DatabaseService,
+    @inject(TokenService) protected tokenService: TokenService
+  ) {
+    super();
+  }
+
+  async handle(request: { subject: string; type: string; otp: string }) {
+    const item = await this.databaseService.manager.getRepository(Otp).findOne({
+      where: {
+        subject: request.subject,
+        type: request.type,
+      },
+    });
+    if (item && item.expiryDate > new Date()) {
+      if (item.retryCount < item.maxRetryCount) {
+        const result = await this.tokenService.hasher.verify(
+          request.otp,
+          item.hash
+        );
+        if (result) {
+          await this.databaseService.manager
+            .getRepository(Otp)
+            .delete({ id: item.id });
+          return { success: true };
+        } else {
+          await this.databaseService.manager
+            .getRepository(Otp)
+            .increment({ id: item.id }, 'retryCount', 1);
+          return { success: false };
+        }
+      } else {
+        throw new BadRequestException();
+      }
+    } else {
+      throw new NotFoundException();
+    }
+  }
+}
