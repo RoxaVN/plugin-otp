@@ -16,12 +16,12 @@ import { Otp } from '../entities/index.js';
 import { serverModule } from '../module.js';
 
 export interface OtpSenderService {
-  handle: () => {
+  handle: (request: { lang: string; subject: string }) => Promise<{
     otp: string;
     cooldown: number;
     duration: number;
     maxRetryCount: number;
-  };
+  }>;
 }
 
 @serverModule.useApi(otpApi.create)
@@ -55,7 +55,10 @@ export class CreateOtpApiService extends BaseService {
     }
     const senderService: OtpSenderService =
       await serviceContainer.getAsync(sender);
-    const result = await senderService.handle();
+    const result = await senderService.handle({
+      lang: 'en',
+      subject: request.subject,
+    });
 
     item.hash = await this.tokenService.hasher.hash(result.otp);
     item.expiryDate = new Date(Date.now() + result.duration);

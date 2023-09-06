@@ -1,4 +1,6 @@
 {
+  "sendOtp": "Gửi OTP",
+  "sendOtpWithCountdown": "Gửi OTP ({{countdown}}s)",
   "Meta": {
     "name": "Plugin otp",
     "description": "Plugin otp"
