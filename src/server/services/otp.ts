@@ -64,7 +64,7 @@ export class CreateOtpApiService extends BaseService {
     item.expiryDate = new Date(Date.now() + result.duration);
     item.cooldown = result.cooldown;
     item.maxRetryCount = result.maxRetryCount;
-    this.databaseService.manager.save(item);
+    this.databaseService.manager.getRepository(Otp).save(item);
 
     return { id: item.id, cooldown: result.cooldown };
   }
