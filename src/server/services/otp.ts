@@ -3,12 +3,14 @@ import {
   Constructor,
   InferApiRequest,
   NotFoundException,
+  ValidationException,
 } from '@roxavn/core/base';
 import {
   BaseService,
   DatabaseService,
   inject,
   serviceContainer,
+  transactionUtils,
 } from '@roxavn/core/server';
 import { TokenService } from '@roxavn/module-utils/server';
 
@@ -109,13 +111,30 @@ export class VerifyOtpApiService extends BaseService {
             .delete({ id: item.id });
           return { success: true };
         } else {
-          await this.databaseService.manager
-            .getRepository(Otp)
-            .increment({ id: item.id }, 'retryCount', 1);
-          return { success: false };
+          await transactionUtils.runInTransaction(
+            () =>
+              this.databaseService.manager
+                .getRepository(Otp)
+                .increment({ id: item.id }, 'retryCount', 1),
+            {
+              propagation: transactionUtils.Propagation.NESTED,
+            }
+          );
+
+          throw new ValidationException({
+            otp: {
+              key: 'Error.InvalidOtpException',
+              ns: serverModule.escapedName,
+            },
+          });
         }
       } else {
-        throw new BadRequestException();
+        throw new ValidationException({
+          otp: {
+            key: 'Error.ExceedRetryCountException',
+            ns: serverModule.escapedName,
+          },
+        });
       }
     } else {
       throw new NotFoundException();

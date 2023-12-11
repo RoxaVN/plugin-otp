@@ -1,6 +1,10 @@
 {
   "sendOtp": "Gửi OTP",
   "sendOtpWithCountdown": "Gửi OTP ({{countdown}}s)",
+  "Error": {
+    "ExceedRetryCountException": "Vượt quá số lần thử lại",
+    "InvalidOtpException": "Otp không hợp lệ"
+  },
   "Meta": {
     "name": "Plugin otp",
     "description": "Plugin otp"
