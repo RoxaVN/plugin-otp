@@ -32,10 +32,12 @@ export function OtpInput(
     <TextInput
       {...props}
       error={error ? <ApiError error={error} /> : props.error}
+      rightSectionWidth={150}
       rightSection={
         <Button
           disabled={countdown > 0 || loading}
           onClick={() => fetcher(props.otp)}
+          w={150}
         >
           {countdown > 0
             ? t('sendOtpWithCountdown', { countdown })
