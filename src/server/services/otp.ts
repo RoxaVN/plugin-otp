@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Constructor,
   InferApiRequest,
   NotFoundException,
 } from '@roxavn/core/base';
@@ -26,7 +27,17 @@ export interface OtpSenderService {
 
 @serverModule.useApi(otpApi.create)
 export class CreateOtpApiService extends BaseService {
-  static senders: Record<string, new (...args: any[]) => OtpSenderService> = {};
+  static senders: Record<string, Constructor<OtpSenderService>> = {};
+
+  static useSender(type: string) {
+    return (serviceClass: Constructor<OtpSenderService>) => {
+      serverModule.injectable()(serviceClass);
+      if (type in this.senders) {
+        throw new Error(`CreateOtpApiService has already type ${type}`);
+      }
+      this.senders[type] = serviceClass;
+    };
+  }
 
   constructor(
     @inject(DatabaseService) protected databaseService: DatabaseService,
