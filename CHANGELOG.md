@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/RoxaVN/roxavn/compare/v0.1.0...v0.1.1) (2023-12-13)
+
+### Features
+
+- add CreateOtpApiService.useSender ([f45164d](https://github.com/RoxaVN/roxavn/commit/f45164d8a3071ca0816859821eec4e10d6977233))
+- throw ValidationException if verify fail ([ebbdc50](https://github.com/RoxaVN/roxavn/commit/ebbdc5024a3429e6feb7463a1568aedf4dc963b4))
+
+### Bug Fixes
+
+- send otp button width ([0bd79be](https://github.com/RoxaVN/roxavn/commit/0bd79beb92c3f358a50384e9718bbb77db83947e))
+
 ## 0.1.0 (2023-11-23)
 
 ### Features
