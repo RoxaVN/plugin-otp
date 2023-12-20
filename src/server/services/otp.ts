@@ -10,7 +10,7 @@ import {
   DatabaseService,
   inject,
   serviceContainer,
-  transactionUtils,
+  databaseUtils,
 } from '@roxavn/core/server';
 import { TokenService } from '@roxavn/module-utils/server';
 
@@ -111,13 +111,13 @@ export class VerifyOtpApiService extends BaseService {
             .delete({ id: item.id });
           return { success: true };
         } else {
-          await transactionUtils.runInTransaction(
+          await databaseUtils.runInTransaction(
             () =>
               this.databaseService.manager
                 .getRepository(Otp)
                 .increment({ id: item.id }, 'retryCount', 1),
             {
-              propagation: transactionUtils.Propagation.NESTED,
+              propagation: databaseUtils.Propagation.NESTED,
             }
           );
 
