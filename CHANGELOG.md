@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/RoxaVN/roxavn/compare/v0.1.1...v0.1.2) (2023-12-22)
+
+### Features
+
+- update with databaseUtils ([ae2555e](https://github.com/RoxaVN/roxavn/commit/ae2555ecda31ba1899f158279ebfebe44f49942d))
+
 ### [0.1.1](https://github.com/RoxaVN/roxavn/compare/v0.1.0...v0.1.1) (2023-12-13)
 
 ### Features
