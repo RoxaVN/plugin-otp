@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 import { webModule } from '../module.js';
 import { otpApi } from '../../base/index.js';
 
-export function OtpInput(
-  props: TextInputProps & { otp: { subject: string; type: string } }
-) {
+export function OtpInput({
+  value,
+  ...props
+}: TextInputProps & { otp: { subject: string; type: string } }) {
   const { t } = webModule.useTranslation();
   const [countdown, setCountdown] = useState(0);
   const { data, error, loading, fetcher } = useApi(otpApi.create, undefined, {
@@ -31,6 +32,8 @@ export function OtpInput(
   return (
     <TextInput
       {...props}
+      // fix warning "a component is changing an uncontrolled input to be controlled"
+      value={value || ''}
       error={error ? <ApiError error={error} /> : props.error}
       rightSectionWidth={150}
       rightSection={
